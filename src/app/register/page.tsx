@@ -1,4 +1,5 @@
 "use client"
+import { useCreateDonorMutation, useCreateRequesterMutation } from "@/Redux/api/user/userApi";
 import { saveAccessToken } from "@/Service/actions/authservice";
 import { login } from "@/Service/actions/login";
 import assets from "@/assets";
@@ -28,41 +29,70 @@ const registrationZodSchema = z.object({
     lastDonationDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     availability: z.string(),
     phone: z.string(),
-    role: z.string(),
+    role: z.enum(['Donor', 'Requester']),
     socialMedia: z.string().optional()
 })
 
 
 
 const defaultValues = {
-    name: "",
-    email: "",
-    password: "",
+    name: "Sanaf",
+    email: "sanaf@mail.com",
+    password: "2255668800p",
     bloodType: "",
-    location: "",
-    age: "",
+    location: "Barisal",
+    age: "21",
     lastDonationDate: "",
     availability: "",
-    phone: "",
-    socialMedia: "",
+    phone: "01111111111",
+    socialMedia: "https://www.facebook.com/",
     role: "",
 }
 
 const RegisterPage = () => {
     const router = useRouter()
     const [error, setError] = useState('')
+    const [createDonor] = useCreateDonorMutation()
+    const [createRequester] = useCreateRequesterMutation()
 
     const onSubmit = async (data: FieldValues) => {
         data.age = Number(data.age);
-        data.availability = (data.availability).toLowerCase() === 'true' ? true : false
+        data.availability = data.availability.toLowerCase() === 'true';
+
         const { role, ...rest } = data;
-        if (role === 'Donor') {
+        const loadingId = toast.loading("Creating...");
 
-        }
-        else if (role === 'Requester') {
+        const handleResponse = async (response: any) => {
+            if (response.data.success) {
+                toast.success(response.data.message, { id: loadingId });
+                const userInfo = await login({ email: data.email, password: data.password });
 
+                if (userInfo.success) {
+                    saveAccessToken({ accessToken: userInfo.data.token });
+                    router.push('/dashboard');
+                } else {
+                    throw new Error(userInfo);
+                }
+            } else {
+                throw new Error(response);
+            }
+        };
+
+        try {
+            let response;
+            if (role === 'Donor') {
+                response = await createDonor(rest);
+            } else if (role === 'Requester') {
+                response = await createRequester(rest);
+            } else {
+                throw new Error('Invalid role');
+            }
+
+            await handleResponse(response);
+        } catch (error: any) {
+            toast.error("Failed to Create", { id: loadingId });
         }
-    }
+    };
     return (
         <Container>
             <Stack
