@@ -24,10 +24,11 @@ const registrationZodSchema = z.object({
     password: z.string().min(6),
     bloodType: z.enum(bloodGroups),
     location: z.string(),
-    age: z.number().int().positive(),
+    age: z.string(),
     lastDonationDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-    availability: z.boolean(),
+    availability: z.string(),
     phone: z.string(),
+    role: z.string(),
     socialMedia: z.string().optional()
 })
 
@@ -44,6 +45,7 @@ const defaultValues = {
     availability: "",
     phone: "",
     socialMedia: "",
+    role: "",
 }
 
 const RegisterPage = () => {
@@ -51,9 +53,15 @@ const RegisterPage = () => {
     const [error, setError] = useState('')
 
     const onSubmit = async (data: FieldValues) => {
+        data.age = Number(data.age);
+        data.availability = (data.availability).toLowerCase() === 'true' ? true : false
+        const { role, ...rest } = data;
+        if (role === 'Donor') {
 
-        console.log(data);
+        }
+        else if (role === 'Requester') {
 
+        }
     }
     return (
         <Container>
@@ -64,7 +72,7 @@ const RegisterPage = () => {
                 <Box
                     sx={{
                         boxShadow: 1,
-                        maxWidth: 600,
+                        maxWidth: 900,
                         width: "100%",
                         borderRadius: 1,
                         p: 4
@@ -77,7 +85,7 @@ const RegisterPage = () => {
                         </Box>
                         <Box>
                             <Typography component='h1' variant="h5" fontWeight={600}>
-                                Register in Health Care
+                                Register in Blood Donation
                             </Typography>
                         </Box>
                     </Stack>
@@ -88,7 +96,7 @@ const RegisterPage = () => {
                         }
                     </Box>
                     <Box sx={{ margin: '30px 0px' }}>
-                        <ReUseForm onSubmit={onSubmit} >
+                        <ReUseForm onSubmit={onSubmit} resolver={zodResolver(registrationZodSchema)} defaultValues={defaultValues}>
                             <Grid container spacing={2}>
                                 <Grid item md={12}>
                                     <ReUseInput
@@ -99,11 +107,30 @@ const RegisterPage = () => {
                                         fullWidth={true}
                                     />
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={4}>
                                     <ReUseInput
                                         name="email"
                                         label="Email"
                                         type="email"
+                                        size="small"
+                                        fullWidth={true}
+                                    />
+                                </Grid>
+
+                                <Grid item md={4}>
+                                    <ReUseInput
+                                        name="phone"
+                                        label="Contact Number"
+                                        type="text"
+                                        size="small"
+                                        fullWidth={true}
+                                    />
+                                </Grid>
+                                <Grid item md={4}>
+                                    <ReUseInput
+                                        name="location"
+                                        label="Address"
+                                        type="text"
                                         size="small"
                                         fullWidth={true}
                                     />
@@ -119,24 +146,6 @@ const RegisterPage = () => {
                                 </Grid>
                                 <Grid item md={6}>
                                     <ReUseInput
-                                        name="phone"
-                                        label="Contact Number"
-                                        type="text"
-                                        size="small"
-                                        fullWidth={true}
-                                    />
-                                </Grid>
-                                <Grid item md={6}>
-                                    <ReUseInput
-                                        name="location"
-                                        label="Address"
-                                        type="text"
-                                        size="small"
-                                        fullWidth={true}
-                                    />
-                                </Grid>
-                                <Grid item md={6}>
-                                    <ReUseInput
                                         name="age"
                                         label="Age"
                                         type="text"
@@ -144,7 +153,7 @@ const RegisterPage = () => {
                                         fullWidth={true}
                                     />
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={8}>
                                     <ReUseInput
                                         required="false"
                                         name="socialMedia"
@@ -154,7 +163,13 @@ const RegisterPage = () => {
                                         fullWidth={true}
                                     />
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={4}>
+                                    <ReUseDatePicker
+                                        name="lastDonationDate"
+                                        label="Last Donation"
+                                    />
+                                </Grid>
+                                <Grid item md={12}>
                                     <ReUseSelect
                                         name="bloodType"
                                         label="Blood Group"
@@ -164,10 +179,24 @@ const RegisterPage = () => {
                                         options={bloodGroupsOption}
                                     />
                                 </Grid>
-                                <Grid item md={6}>
-                                    <ReUseDatePicker
-                                        name="bloodType"
-                                        label="Blood Group"
+                                <Grid item md={7}>
+                                    <ReUseSelect
+                                        name="availability"
+                                        label="Availability"
+                                        type="text"
+                                        size="small"
+                                        fullWidth={true}
+                                        options={['true', 'false']}
+                                    />
+                                </Grid>
+                                <Grid item md={5}>
+                                    <ReUseSelect
+                                        name="role"
+                                        label="Role"
+                                        type="text"
+                                        size="small"
+                                        fullWidth={true}
+                                        options={['Donor', 'Requester']}
                                     />
                                 </Grid>
                             </Grid>

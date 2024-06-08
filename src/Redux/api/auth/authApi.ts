@@ -8,7 +8,21 @@ const authApi = baseApi.injectEndpoints({
                 method: 'POST',
                 data: data
             })
-        })
+        }),
+        createDonor: build.mutation({
+            query: (data) => ({
+                url: '/auth/change-password',
+                method: 'POST',
+                data: data
+            })
+        }),
+        createRequester: build.mutation({
+            query: (data) => ({
+                url: '/auth/change-password',
+                method: 'POST',
+                data: data
+            })
+        }),
     })
 })
 
