@@ -59,10 +59,10 @@ export default function DashboardDrawer({ children }: { children: React.ReactNod
                     </IconButton>
                     <Box>
                         <Typography variant='body2' noWrap component='div' color='gray'>
-                            Hi, Sunan Rabbi
+                            Hi
                         </Typography>
                         <Typography variant='body2' noWrap component='div' color='primary.main'>
-                            Welcome To, Health Care !
+                            Welcome To, Blood Donation !
                         </Typography>
                     </Box>
                 </Toolbar>

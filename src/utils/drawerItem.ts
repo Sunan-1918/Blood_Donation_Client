@@ -17,29 +17,19 @@ export const drawerItems = (role: IUserRole) => {
                     //icon: DashboardIcon
                 },
                 {
-                    title: "Specialties",
-                    path: `${role}/specialties`,
-                    //icon: TryIcon
+                    title: "Donor",
+                    path: `${role}`,
+                    //icon: DashboardIcon
                 },
                 {
-                    title: "Doctors",
-                    path: `${role}/doctors`,
-                    //icon: MedicalInformationIcon
+                    title: "Requester",
+                    path: `${role}`,
+                    //icon: DashboardIcon
                 },
                 {
-                    title: "Schedule",
-                    path: `${role}/schedules`,
-                    //icon: CalendarMonthIcon
-                },
-                {
-                    title: "Appointments",
-                    path: `${role}/appointments`,
-                    //icon: EventIcon
-                },
-                {
-                    title: "Reviews",
-                    path: `${role}/reviews`,
-                    //icon: ReviewsIcon
+                    title: "Request",
+                    path: `${role}`,
+                    //icon: DashboardIcon
                 }
             );
             break;
@@ -51,35 +41,25 @@ export const drawerItems = (role: IUserRole) => {
                     //icon: DashboardIcon
                 },
                 {
-                    title: "Schedule",
-                    path: `${role}/schedule`,
-                    //icon: CalendarMonthIcon
+                    title: "Request",
+                    path: `${role}`,
+                    //icon: DashboardIcon
                 },
                 {
-                    title: "Appointments",
-                    path: `${role}/appointments`,
-                    //icon: EventIcon
-                }
+                    title: "Accepted Request",
+                    path: `${role}`,
+                    //icon: DashboardIcon
+                },
+
             );
             break;
         case userRole.Requester:
             roleMenu.push(
                 {
-                    title: "Appointments",
-                    path: `${role}/appointments`,
+                    title: "My Request",
+                    path: `${role}`,
                     //icon: EventIcon
-                },
-                {
-                    title: "Prescriptions",
-                    path: `${role}/prescriptions`,
-                    //icon: MedicationIcon
-                },
-                {
-                    title: "Payment History",
-                    path: `${role}/payment-history`,
-                    //icon: PaymentIcon
-                },
-
+                }
             );
             break;
         default:
