@@ -10,7 +10,7 @@ const AuthButton = () => {
     return (
         <>
             {
-                !getUser?.userId ? <AppBar /> : (<Button component={Link} href="/login">Login</Button>)
+                getUser?.userId ? <AppBar /> : (<Button component={Link} href="/login">Login</Button>)
             }
         </>
     );

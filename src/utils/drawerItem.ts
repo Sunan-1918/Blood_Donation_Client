@@ -3,6 +3,11 @@ import { userRole } from "@/constant/role";
 import { DrawerItem, IUserRole } from "@/type"
 
 //icons
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import GroupIcon from '@mui/icons-material/Group';
+import RequestPageIcon from '@mui/icons-material/RequestPage';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 
 export const drawerItems = (role: IUserRole) => {
@@ -14,22 +19,22 @@ export const drawerItems = (role: IUserRole) => {
                 {
                     title: "Dashboard",
                     path: `${role}`,
-                    //icon: DashboardIcon
+                    icon: DashboardIcon
                 },
                 {
                     title: "Donor",
-                    path: `${role}`,
-                    //icon: DashboardIcon
+                    path: `${role}/donor`,
+                    icon: GroupIcon
                 },
                 {
                     title: "Requester",
-                    path: `${role}`,
-                    //icon: DashboardIcon
+                    path: `${role}/requester`,
+                    icon: GroupIcon
                 },
                 {
                     title: "Request",
-                    path: `${role}`,
-                    //icon: DashboardIcon
+                    path: `${role}/request`,
+                    icon: RequestPageIcon
                 }
             );
             break;
@@ -38,17 +43,17 @@ export const drawerItems = (role: IUserRole) => {
                 {
                     title: "Dashboard",
                     path: `${role}`,
-                    //icon: DashboardIcon
+                    icon: DashboardIcon
                 },
                 {
                     title: "Request",
-                    path: `${role}`,
-                    //icon: DashboardIcon
+                    path: `${role}/request`,
+                    icon: RequestPageIcon
                 },
                 {
                     title: "Accepted Request",
-                    path: `${role}`,
-                    //icon: DashboardIcon
+                    path: `${role}/accept-request`,
+                    icon: CheckBoxIcon
                 },
 
             );
@@ -56,9 +61,14 @@ export const drawerItems = (role: IUserRole) => {
         case userRole.Requester:
             roleMenu.push(
                 {
-                    title: "My Request",
+                    title: "Dashboard",
                     path: `${role}`,
-                    //icon: EventIcon
+                    icon: DashboardIcon
+                },
+                {
+                    title: "My Request",
+                    path: `${role}/my-request`,
+                    icon: AssignmentIcon
                 }
             );
             break;
