@@ -7,7 +7,7 @@ type Tcontroller = {
     type?: string;
     size?: "small" | 'medium';
     fullWidth?: boolean;
-    required?: boolean;
+    required?: 'true' | 'false';
 }
 
 const ReUseInput = ({ name, type = 'text', size = 'small', fullWidth = true, label, required }: Tcontroller) => {
@@ -24,7 +24,7 @@ const ReUseInput = ({ name, type = 'text', size = 'small', fullWidth = true, lab
                     variant="outlined"
                     size={size}
                     fullWidth={fullWidth}
-                    required={required}
+                    required={required?.toLowerCase() === 'true' ? true : false}
                     error={!!error?.message}
                     helperText={error?.message}
                 />

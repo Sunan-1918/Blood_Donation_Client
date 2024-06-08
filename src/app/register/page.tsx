@@ -2,8 +2,11 @@
 import { saveAccessToken } from "@/Service/actions/authservice";
 import { login } from "@/Service/actions/login";
 import assets from "@/assets";
+import ReUseDatePicker from "@/components/Shared/Form/ReDatePicker";
 import ReUseForm from "@/components/Shared/Form/ReForm";
 import ReUseInput from "@/components/Shared/Form/ReInput";
+import ReUseSelect from "@/components/Shared/Form/ReSelect";
+import { bloodGroups, bloodGroupsOption } from "@/constant/role";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
@@ -15,26 +18,32 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 
-const patientSchema = z.object({
-    name: z.string().min(1, "Give a valid Name"),
-    email: z.string().email('Please Provide a valid Email'),
-    contactNumber: z.string().regex(/^\d{11}/, 'Please Provide a valid Contact Number'),
-    address: z.string().min(1, 'Give a proper Address')
+const registrationZodSchema = z.object({
+    name: z.string(),
+    email: z.string().email(),
+    password: z.string().min(6),
+    bloodType: z.enum(bloodGroups),
+    location: z.string(),
+    age: z.number().int().positive(),
+    lastDonationDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    availability: z.boolean(),
+    phone: z.string(),
+    socialMedia: z.string().optional()
 })
 
-const RegisterSchema = z.object({
-    password: z.string().min(8, "Password Must 8 characters"),
-    patient: patientSchema
-})
+
 
 const defaultValues = {
-    password: '',
-    patient: {
-        name: '',
-        email: '',
-        contactNumber: '',
-        address: ''
-    }
+    name: "",
+    email: "",
+    password: "",
+    bloodType: "",
+    location: "",
+    age: "",
+    lastDonationDate: "",
+    availability: "",
+    phone: "",
+    socialMedia: "",
 }
 
 const RegisterPage = () => {
@@ -43,6 +52,7 @@ const RegisterPage = () => {
 
     const onSubmit = async (data: FieldValues) => {
 
+        console.log(data);
 
     }
     return (
@@ -78,11 +88,11 @@ const RegisterPage = () => {
                         }
                     </Box>
                     <Box sx={{ margin: '30px 0px' }}>
-                        <ReUseForm onSubmit={onSubmit} resolver={zodResolver(RegisterSchema)} defaultValues={defaultValues}>
+                        <ReUseForm onSubmit={onSubmit} >
                             <Grid container spacing={2}>
                                 <Grid item md={12}>
                                     <ReUseInput
-                                        name="patient.name"
+                                        name="name"
                                         label="Name"
                                         type="text"
                                         size="small"
@@ -91,7 +101,7 @@ const RegisterPage = () => {
                                 </Grid>
                                 <Grid item md={6}>
                                     <ReUseInput
-                                        name="patient.email"
+                                        name="email"
                                         label="Email"
                                         type="email"
                                         size="small"
@@ -109,7 +119,7 @@ const RegisterPage = () => {
                                 </Grid>
                                 <Grid item md={6}>
                                     <ReUseInput
-                                        name="patient.contactNumber"
+                                        name="phone"
                                         label="Contact Number"
                                         type="text"
                                         size="small"
@@ -118,11 +128,46 @@ const RegisterPage = () => {
                                 </Grid>
                                 <Grid item md={6}>
                                     <ReUseInput
-                                        name="patient.address"
+                                        name="location"
                                         label="Address"
                                         type="text"
                                         size="small"
                                         fullWidth={true}
+                                    />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <ReUseInput
+                                        name="age"
+                                        label="Age"
+                                        type="text"
+                                        size="small"
+                                        fullWidth={true}
+                                    />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <ReUseInput
+                                        required="false"
+                                        name="socialMedia"
+                                        label="Social Media"
+                                        type="text"
+                                        size="small"
+                                        fullWidth={true}
+                                    />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <ReUseSelect
+                                        name="bloodType"
+                                        label="Blood Group"
+                                        type="text"
+                                        size="small"
+                                        fullWidth={true}
+                                        options={bloodGroupsOption}
+                                    />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <ReUseDatePicker
+                                        name="bloodType"
+                                        label="Blood Group"
                                     />
                                 </Grid>
                             </Grid>
