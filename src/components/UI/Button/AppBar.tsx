@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 
 const AppBar = () => {
     const router = useRouter()
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {

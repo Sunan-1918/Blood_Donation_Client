@@ -1,10 +1,7 @@
 "use client"
-import { saveAccessToken } from "@/Service/actions/authservice";
-import { login } from "@/Service/actions/login";
 import assets from "@/assets";
 import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
@@ -13,6 +10,7 @@ import ReUseInput from "@/components/Shared/Form/ReInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { z } from "zod";
+import { useChangePasswordMutation } from "@/Redux/api/auth/authApi";
 
 const changePasswordZodSchema = z.object({
     oldPassword: z.string().min(8, "Password must be at least 8 characters"),
@@ -29,18 +27,20 @@ const defaultValues = {
     confirmPassword: ""
 }
 
-const LoginPage = () => {
+const changePasswordPage = () => {
     const router = useRouter()
     const [error, setError] = useState('')
+    const [changePassword] = useChangePasswordMutation()
     const handlePasswordChange = async (data: FieldValues) => {
 
         const loadingId = toast.loading("Changing...")
         try {
-            const response = await login(data);
+            const response: any = await changePassword(data).unwrap();
 
-            if (response.success) {
-                toast.success(response.message, { id: loadingId })
-                saveAccessToken({ accessToken: response.data.accessToken })
+
+
+            if (Object.keys(response).length > 0) {
+                toast.success("Password Change Successfully", { id: loadingId })
                 router.push('/')
             }
             else {
@@ -74,7 +74,7 @@ const LoginPage = () => {
                         </Box>
                         <Box>
                             <Typography component='h1' variant="h5" fontWeight={600}>
-                                Login in Health Care
+                                Change Password
                             </Typography>
                         </Box>
                     </Stack>
@@ -86,7 +86,7 @@ const LoginPage = () => {
                     </Box>
                     <Box sx={{ margin: '30px 0px' }}>
                         <ReUseForm onSubmit={handlePasswordChange} resolver={zodResolver(changePasswordZodSchema)} defaultValues={defaultValues} >
-                            <Grid container spacing={2}>
+                            <Grid container spacing={2} marginBottom={1}>
                                 <Grid item md={6}>
                                     <ReUseInput
                                         name="oldPassword"
@@ -103,7 +103,7 @@ const LoginPage = () => {
                                         fullWidth={true}
                                     />
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={12}>
                                     <ReUseInput
                                         name="confirmPassword"
                                         label="Confirm Password"
@@ -121,4 +121,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default changePasswordPage;

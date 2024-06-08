@@ -1,7 +1,7 @@
 import { FieldValues } from "react-hook-form";
 
 export const login = async (data: FieldValues) => {
-    const fetchData = await fetch(`https://blood-donation-server-eta.vercel.app/api/auth/login`, {
+    const fetchData = await fetch(`http://localhost:5000/api/auth/login`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

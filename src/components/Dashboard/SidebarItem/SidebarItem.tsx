@@ -32,7 +32,7 @@ const SidebarItem = () => {
             >
                 <Image src={assets.svgs.logo} alt='logo' width={40} height={40} />
                 <Typography variant="h6" component='h1' fontWeight={600}>
-                    <Box component='span' color='primary.main'>H</Box>ealth Care
+                    <Box component='span' color='primary.main'>B</Box>lood Donation
                 </Typography>
             </Stack>
             <List>
