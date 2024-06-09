@@ -1,18 +1,18 @@
 "use client"
 import { useGetSingleDonorQuery } from '@/Redux/api/user/userApi';
 import { IDonor } from '@/type';
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia, Container, Grid, Stack, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import ReFullModal from '@/components/Shared/Modal/ReFullModal';
-import ReModal from '@/components/Shared/Modal/ReModal';
 import DonationPage from '@/components/Donation/DonationForm';
+import { getUserInfo } from '@/Service/actions/authservice';
 
 const SingleDonorPage = ({ params, query }: { params: { donorId: string }, query: any }) => {
     const theme = useTheme();
     const [open, setOpen] = useState(false)
     const { data, isLoading, isFetching } = useGetSingleDonorQuery(params.donorId);
-
+    const userInfo = getUserInfo()
     if (isFetching || isLoading) {
         return <h1>Loading...</h1>
     }
@@ -65,12 +65,12 @@ const SingleDonorPage = ({ params, query }: { params: { donorId: string }, query
                                 </Grid>
                             </CardContent>
                             <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                                <Button size="small" color="primary" onClick={() => setOpen(true)}>
+                                <Button disabled={userInfo?.role !== 'Requester'} size="small" color="primary" onClick={() => setOpen(true)}>
                                     Request
                                 </Button>
                             </Box>
                             <ReFullModal open={open} setOpen={setOpen} title='Request For Donation'>
-                                <DonationPage />
+                                <DonationPage id={params.donorId} />
                             </ReFullModal>
                         </Box>
                         <CardMedia

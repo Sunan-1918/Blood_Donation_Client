@@ -13,50 +13,44 @@ import ReUseInput from "@/components/Shared/Form/ReInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { z } from "zod";
+import ReUseDatePicker from "../Shared/Form/ReDatePicker";
 
-const loginValidationSchema = z.object({
-    email: z.string().email('Please Provide a Valid Email Address'),
-    password: z.string().min(8, "Password Must 8 characters")
+const donationSchema = z.object({
+    donorId: z.string(),
+    dateOfDonation: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    hospitalName: z.string(),
+    hospitalAddress: z.string(),
+    reason: z.string(),
 })
 
+
 const defaultValues = {
-    email: '',
-    password: ''
+    donorId: "",
+    dateOfDonation: "",
+    hospitalName: "",
+    hospitalAddress: "",
+    reason: "",
 }
 
-const DonationPage = () => {
+const DonationPage = ({ id }: { id: string }) => {
+
     const router = useRouter()
     const [error, setError] = useState('')
-    const handleLogin = async (data: FieldValues) => {
 
-        const loadingId = toast.loading("Loging...")
-        try {
-            const response = await login(data);
+    const handleRequest = async (data: FieldValues) => {
 
-            if (response.success) {
-                toast.success(response.message, { id: loadingId })
-                saveAccessToken({ accessToken: response.data.token })
-                router.push('/dashboard')
-            }
-            else {
-                setError(response.message)
-                throw new Error()
-            }
-        } catch (error: any) {
-            toast.error("Failed to Login", { id: loadingId })
-        }
+        console.log(data);
 
     }
     return (
         <Container>
             <Stack
-                height="100vh"
                 justifyContent='center'
                 alignItems='center'>
                 <Box
                     sx={{
                         boxShadow: 1,
-                        maxWidth: 600,
+                        maxWidth: 900,
                         width: "100%",
                         borderRadius: 1,
                         p: 4
@@ -69,7 +63,7 @@ const DonationPage = () => {
                         </Box>
                         <Box>
                             <Typography component='h1' variant="h5" fontWeight={600}>
-                                Login in Blood Donation
+                                Request for Donation
                             </Typography>
                         </Box>
                     </Stack>
@@ -80,33 +74,51 @@ const DonationPage = () => {
                         }
                     </Box>
                     <Box sx={{ margin: '30px 0px' }}>
-                        <ReUseForm onSubmit={handleLogin} resolver={zodResolver(loginValidationSchema)} defaultValues={defaultValues} >
+                        <ReUseForm onSubmit={handleRequest} resolver={zodResolver(donationSchema)} defaultValues={defaultValues} >
                             <Grid container spacing={2}>
+                                <Grid item md={12}>
+                                    <ReUseInput
+                                        name="donorId"
+                                        label="Donor's id"
+                                        type="text"
+                                        fullWidth={true}
+                                        value={id}
+                                        disable={true}
+                                    />
+                                </Grid>
                                 <Grid item md={6}>
                                     <ReUseInput
-                                        name="email"
-                                        label="Email"
-                                        type="email"
+                                        name="hospitalName"
+                                        label="Hospital Name"
+                                        type="text"
                                         fullWidth={true}
                                     />
                                 </Grid>
                                 <Grid item md={6}>
                                     <ReUseInput
-                                        name="password"
-                                        label="Password"
-                                        type="password"
+                                        name="hospitalAddress"
+                                        label="Hospital Address"
+                                        type="text"
                                         fullWidth={true}
+                                    />
+                                </Grid>
+                                <Grid item md={8}>
+                                    <ReUseInput
+                                        name="reason"
+                                        label="Reason"
+                                        type="text"
+                                        fullWidth={true}
+                                    />
+                                </Grid>
+                                <Grid item md={4}>
+                                    <ReUseDatePicker
+                                        name="lastDonationDate"
+                                        label="Last Donation"
                                     />
                                 </Grid>
                             </Grid>
-                            <Typography textAlign='end' my={1}>
-                                Forgot Password?
-                            </Typography>
-                            <Button type="submit" sx={{ margin: '5px 0px 15px 0px' }} fullWidth={true}>LOG IN</Button>
+                            <Button type="submit" sx={{ margin: '25px 0px 15px 0px' }} fullWidth={true}>Submit</Button>
                         </ReUseForm>
-                        <Typography component='p' textAlign='center'>
-                            Don't have an account? <Link href='/register' className="text-blue-500">Create an account</Link>
-                        </Typography>
                     </Box>
                 </Box>
             </Stack>

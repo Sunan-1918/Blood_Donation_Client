@@ -8,9 +8,11 @@ type Tcontroller = {
     size?: "small" | 'medium';
     fullWidth?: boolean;
     required?: 'true' | 'false';
+    value?: string;
+    disable?: boolean;
 }
 
-const ReUseInput = ({ name, type = 'text', size = 'small', fullWidth = true, label, required }: Tcontroller) => {
+const ReUseInput = ({ name, type = 'text', size = 'small', value, fullWidth = true, label, required, disable = false }: Tcontroller) => {
     const { control } = useFormContext()
     return (
         <Controller
@@ -27,6 +29,8 @@ const ReUseInput = ({ name, type = 'text', size = 'small', fullWidth = true, lab
                     required={required?.toLowerCase() === 'true' ? true : false}
                     error={!!error?.message}
                     helperText={error?.message}
+                    value={value}
+                    disabled={disable}
                 />
             )}
         />
