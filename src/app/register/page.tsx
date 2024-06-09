@@ -20,15 +20,15 @@ import { z } from "zod";
 
 
 const registrationZodSchema = z.object({
-    name: z.string(),
-    email: z.string().email(),
-    password: z.string().min(6),
+    name: z.string().min(2, 'Input Name'),
+    email: z.string().email("Enter Your Email"),
+    password: z.string().min(8, "Password Must be 8 characters"),
     bloodType: z.enum(bloodGroups),
-    location: z.string(),
-    age: z.string(),
+    location: z.string().min(1, "Enter Your Address"),
+    age: z.string().min(2, "Enter Your Age"),
     lastDonationDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-    availability: z.string(),
-    phone: z.string(),
+    availability: z.enum(['true', 'false']),
+    phone: z.string().min(11, "Enter Your Contact Number"),
     role: z.enum(['Donor', 'Requester']),
     socialMedia: z.string().optional()
 })
