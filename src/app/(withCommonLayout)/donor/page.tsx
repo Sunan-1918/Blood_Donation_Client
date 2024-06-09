@@ -1,45 +1,42 @@
 "use client"
-import { Container } from '@mui/material';
+import { Box, Container, Grid, Stack } from '@mui/material';
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
 import { useGetAllDonorQuery } from '@/Redux/api/user/userApi';
+import DonorCard from '@/components/User/DonorCard';
 
-const donorPage = () => {
-    const { data } = useGetAllDonorQuery(undefined)
-    console.log(data);
+const DonorPage = () => {
+    const { data, isLoading, isFetching } = useGetAllDonorQuery(undefined);
 
     return (
         <Container>
-            <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image="/static/images/cards/contemplative-reptile.jpg"
-                        alt="green iguana"
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            Lizard
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Lizards are a widespread group of squamate reptiles, with over 6,000
-                            species, ranging across all continents except Antarctica
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions>
-                    <Button size="small" color="primary">
-                        Share
-                    </Button>
-                </CardActions>
-            </Card>
+            <Stack
+                justifyContent='center'
+                alignItems='center'
+            >
+                <Box
+                    sx={{
+                        width: "100%",
+                        borderRadius: 1,
+                        p: 4
+                    }}
+                >
+
+                    <Grid container spacing={2}>
+                        {isLoading || isFetching ? (
+                            <h1>Loading...</h1>
+                        ) : (
+                            data?.data?.map(item => (
+                                <Grid item md={3} key={item.id}>
+                                    <DonorCard item={item} />
+                                </Grid>
+                            ))
+                        )}
+                    </Grid>
+
+                </Box>
+            </Stack>
         </Container>
     );
 };
 
-export default donorPage;
+export default DonorPage;

@@ -40,7 +40,13 @@ const userApi = baseApi.injectEndpoints({
                 meta: res.meta
             })
         }),
+        getSingleDonor: build.query({
+            query: (id) => ({
+                url: `/donor/donor-list/${id}`,
+                method: "GET",
+            })
+        }),
     })
 })
 
-export const { useCreateDonorMutation, useCreateRequesterMutation, useGetAllDonorQuery } = userApi;
+export const { useCreateDonorMutation, useCreateRequesterMutation, useGetAllDonorQuery, useGetSingleDonorQuery } = userApi;
