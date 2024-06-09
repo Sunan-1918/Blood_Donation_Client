@@ -1,3 +1,4 @@
+import { IDonor, TResponseRedux, Tfilter } from "@/type";
 import { baseApi } from "../baseApi";
 
 const userApi = baseApi.injectEndpoints({
@@ -16,7 +17,30 @@ const userApi = baseApi.injectEndpoints({
                 data: data
             })
         }),
+        getAllDonor: build.query({
+
+            query: (args) => {
+
+                const params = new URLSearchParams();
+                if (args) {
+                    args.forEach((item: Tfilter) => {
+                        params.append(item.name, item.value as string)
+                    });
+                }
+
+                return {
+                    url: "/donor/donor-list",
+                    method: "GET",
+                    params
+                }
+
+            },
+            transformResponse: (res: TResponseRedux<IDonor[]>) => ({
+                data: res.data,
+                meta: res.meta
+            })
+        }),
     })
 })
 
-export const { useCreateDonorMutation, useCreateRequesterMutation } = userApi;
+export const { useCreateDonorMutation, useCreateRequesterMutation, useGetAllDonorQuery } = userApi;

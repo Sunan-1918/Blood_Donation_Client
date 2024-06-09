@@ -20,8 +20,8 @@ const Navbar = () => {
                     <Typography component={Link} href="/" >
                         Teams
                     </Typography>
-                    <Typography component={Link} href="/" >
-                        Coverage Area
+                    <Typography component={Link} href="/donor" >
+                        Donor's List
                     </Typography>
                     <Typography component={Link} href="/" >
                         Success Stories

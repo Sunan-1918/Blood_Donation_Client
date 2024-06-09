@@ -36,16 +36,16 @@ const registrationZodSchema = z.object({
 
 
 const defaultValues = {
-    name: "Sanaf",
-    email: "sanaf@mail.com",
-    password: "2255668800p",
+    name: "",
+    email: "",
+    password: "",
     bloodType: "",
-    location: "Barisal",
-    age: "21",
+    location: "",
+    age: "",
     lastDonationDate: "",
     availability: "",
-    phone: "01111111111",
-    socialMedia: "https://www.facebook.com/",
+    phone: "",
+    socialMedia: "",
     role: "",
 }
 
