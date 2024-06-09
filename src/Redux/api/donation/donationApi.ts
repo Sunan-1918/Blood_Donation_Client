@@ -15,4 +15,4 @@ const donationApi = baseApi.injectEndpoints({
     }),
 })
 
-const { useCreateDonationMutation } = donationApi
+export const { useCreateDonationMutation } = donationApi

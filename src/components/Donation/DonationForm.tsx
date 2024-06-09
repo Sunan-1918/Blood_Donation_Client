@@ -9,14 +9,16 @@ import ReUseInput from "@/components/Shared/Form/ReInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { z } from "zod";
-import ReUseDatePicker from "@/components/Shared/Form/ReDatePicker"; // Ensure correct import path
+import ReUseDatePicker from "@/components/Shared/Form/ReDatePicker";
+import { toast } from "sonner";
+import { useCreateDonationMutation } from "@/Redux/api/donation/donationApi";
 
 const donationSchema = z.object({
     donorId: z.string(),
     dateOfDonation: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Input the Donation Date'),
-    hospitalName: z.string().max(45, 'Provide the Hospital Name'),
-    hospitalAddress: z.string().max(45, 'Provide the Hospital Name'),
-    reason: z.string().max(45, 'Provide the Hospital Name'),
+    hospitalName: z.string().min(2, 'Provide the Hospital Name'),
+    hospitalAddress: z.string().min(2, 'Provide the Hospital Name'),
+    reason: z.string().min(2, 'Provide the Hospital Name'),
 });
 
 const defaultValues = {
@@ -30,10 +32,29 @@ const defaultValues = {
 const DonationPage = ({ id }: { id: string }) => {
     const router = useRouter();
     const [error, setError] = useState('');
+    const [createDonation] = useCreateDonationMutation()
 
     const handleDonation = async (data: FieldValues) => {
-        console.log(data);
-        // Handle form submission logic
+        const donationData = {
+            ...data,
+            donorId: id
+        }
+        const loadingId = toast.loading("Requesting...")
+        try {
+            const response = await createDonation(donationData);
+
+            if (response.data.success) {
+                toast.success(response.data.message, { id: loadingId })
+
+                router.push('/dashboard')
+            }
+            else {
+                setError(response.data.message)
+                throw new Error()
+            }
+        } catch (error: any) {
+            toast.error("Failed...", { id: loadingId })
+        }
     };
 
     return (
@@ -101,9 +122,7 @@ const DonationPage = ({ id }: { id: string }) => {
                                     />
                                 </Grid>
                             </Grid>
-                            <Button type="submit" sx={{ margin: '25px 0px 15px 0px' }} fullWidth>
-                                Submit
-                            </Button>
+                            <Button type="submit" sx={{ margin: '25px 0px 15px 0px' }} fullWidth={true}>SUBMIT</Button>
                         </ReUseForm>
                     </Box>
                 </Box>
