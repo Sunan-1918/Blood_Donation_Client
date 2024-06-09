@@ -1,11 +1,17 @@
 "use client"
 import { Box, Container, Grid, Stack } from '@mui/material';
 import React from 'react';
-import { useGetAllDonorQuery } from '@/Redux/api/user/userApi';
+import { useGetAllDonorQuery, useGetMeQuery } from '@/Redux/api/user/userApi';
 import DonorCard from '@/components/User/DonorCard';
 
 const DonorPage = () => {
-    const { data, isLoading, isFetching } = useGetAllDonorQuery(undefined);
+    const { data: myInfo, isFetching: isFetchingMe } = useGetMeQuery(undefined);
+    const bloodType = myInfo?.data?.bloodType;
+
+    const { data, isLoading, isFetching } = useGetAllDonorQuery(
+        myInfo ? [{ name: 'bloodType', value: `${bloodType}` }] : [],
+        { skip: isFetchingMe }
+    );
 
     return (
         <Container>
@@ -20,9 +26,8 @@ const DonorPage = () => {
                         p: 4
                     }}
                 >
-
                     <Grid container spacing={2}>
-                        {isLoading || isFetching ? (
+                        {isLoading || isFetching || isFetchingMe ? (
                             <h1>Loading...</h1>
                         ) : (
                             data?.data?.map(item => (
@@ -32,7 +37,6 @@ const DonorPage = () => {
                             ))
                         )}
                     </Grid>
-
                 </Box>
             </Stack>
         </Container>

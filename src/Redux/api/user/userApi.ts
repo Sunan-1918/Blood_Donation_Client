@@ -17,6 +17,12 @@ const userApi = baseApi.injectEndpoints({
                 data: data
             })
         }),
+        getMe: build.query({
+            query: () => ({
+                url: '/user/get-me',
+                method: 'GET'
+            })
+        }),
         getAllDonor: build.query({
 
             query: (args) => {
@@ -49,4 +55,4 @@ const userApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useCreateDonorMutation, useCreateRequesterMutation, useGetAllDonorQuery, useGetSingleDonorQuery } = userApi;
+export const { useCreateDonorMutation, useCreateRequesterMutation, useGetAllDonorQuery, useGetSingleDonorQuery, useGetMeQuery } = userApi;
