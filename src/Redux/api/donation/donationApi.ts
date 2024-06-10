@@ -21,11 +21,14 @@ const donationApi = baseApi.injectEndpoints({
         }),
 
         updateDonation: build.mutation({
-            query: ({ id, status }) => ({
-                url: `/donation/donation-request/${id}`,
-                method: 'PUT',
-                data: status
-            }),
+            query: (data) => {
+                console.log(data);
+                return {
+                    url: `/donation/donation-request/${data.id}`,
+                    method: 'PUT',
+                    data: data.payload
+                }
+            },
             invalidatesTags: [tagTypes.donation]
         }),
 

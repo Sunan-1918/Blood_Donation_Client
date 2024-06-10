@@ -12,7 +12,11 @@ const SaveButton = ({ params }: { params: any }) => {
 
         const loadingId = toast.loading("Updating...")
         try {
-            const response = await updateDonation({ id, requestStatus });
+            const data = {
+                id: id,
+                payload: { status: requestStatus }
+            }
+            const response = await updateDonation(data);
 
             if (response.data.success) {
                 toast.success(response.data.message, { id: loadingId })
