@@ -1,11 +1,55 @@
-import React from 'react';
+"use client"
+import { useGetDonationQuery } from '@/Redux/api/donation/donationApi';
+import { Typography } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-const acceptRequest = () => {
+const RequestPage = () => {
+    const { data, isFetching, isLoading } = useGetDonationQuery([{ name: "requestStatus", value: "APPROVED" }]);
+
+    if (isFetching || isLoading) {
+        return <h1>Loading</h1>;
+    }
+    const columns: GridColDef[] = [
+        { field: 'dateOfDonation', headerName: 'Date Of Donation', flex: 1 },
+        { field: 'hospitalAddress', headerName: 'Hospital Address', flex: 1 },
+        { field: 'hospitalName', headerName: 'Hospital Name', flex: 1 },
+        { field: 'phoneNumber', headerName: 'Phone Number', flex: 1 },
+        { field: 'reason', headerName: 'Reason', flex: 1 },
+        {
+            field: 'requestStatus',
+            headerName: 'Request Status',
+            flex: 1,
+            renderCell: (params) => {
+                const { id, value } = params;
+                let color: string = '';
+                if (value === 'REJECTED') {
+                    color = 'red'
+                }
+                else if (value === 'PENDING') {
+                    color = 'blue'
+                }
+                else if (value === 'APPROVED') {
+                    color = 'green'
+                }
+                return <Typography sx={{ marginTop: '10px', color: `${color}` }} variant="button" display="block" gutterBottom>
+                    {value}
+                </Typography>
+            }
+
+        }
+    ];
+
+    const rows = data?.data || [];
+
     return (
-        <div>
-            <h1>Accepted Request</h1>
+        <div style={{ height: 400, width: '100%' }}>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                getRowId={(row) => row.id}
+            />
         </div>
     );
 };
 
-export default acceptRequest;
+export default RequestPage;

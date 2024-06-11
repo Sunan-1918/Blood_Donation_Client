@@ -1,5 +1,6 @@
 import { tagTypes } from "@/Redux/tag-type";
 import { baseApi } from "../baseApi";
+import { Tfilter } from "@/type";
 
 const donationApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
@@ -12,11 +13,23 @@ const donationApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: [tagTypes.donation]
         }),
+
         getDonation: build.query({
-            query: () => ({
-                url: '/donation/donation-request',
-                method: 'GET'
-            }),
+            query: (args) => {
+
+                const params = new URLSearchParams();
+                if (args) {
+                    args.forEach((item: Tfilter) => {
+                        params.append(item.name, item.value as string)
+                    });
+                }
+
+                return {
+                    url: '/donation/donation-request',
+                    method: 'GET',
+                    params
+                }
+            },
             providesTags: [tagTypes.donation]
         }),
 
