@@ -47,6 +47,7 @@ const RequestPage = () => {
                 rows={rows}
                 columns={columns}
                 getRowId={(row) => row.id}
+                hideFooter={true}
             />
         </div>
     );
