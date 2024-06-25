@@ -1,3 +1,4 @@
+"use client"
 import { useDeleteRequesterMutation, useGetAllReuqesterQuery } from '@/Redux/api/user/userApi';
 import { Button, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -49,7 +50,6 @@ const requesterPage = () => {
             }
         },
         { field: 'bloodType', headerName: 'Blood Type', flex: 1 },
-        { field: 'lastDonationDate', headerName: 'Last Donation', flex: 1 },
         { field: 'location', headerName: 'Location', flex: 1 },
         {
             field: 'actions',

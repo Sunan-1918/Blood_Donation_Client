@@ -51,6 +51,9 @@ const donorPage = () => {
         { field: 'bloodType', headerName: 'Blood Type', flex: 1 },
         { field: 'location', headerName: 'Location', flex: 1 },
         {
+            field: 'lastDonationDate', headerName: 'Last Donation', flex: 1
+        },
+        {
             field: 'actions',
             headerName: 'Actions',
             flex: 0.5,
