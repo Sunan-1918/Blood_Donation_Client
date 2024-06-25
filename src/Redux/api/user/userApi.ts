@@ -17,9 +17,17 @@ const userApi = baseApi.injectEndpoints({
         deleteDonor: build.mutation({
             query: (id) => ({
                 url: `/donor/${id}`,
-                method: 'DELET'
+                method: 'DELETE'
             }),
             invalidatesTags: [tagTypes.donor]
+        }),
+
+        deleteRequester: build.mutation({
+            query: (id) => ({
+                url: `/requester/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: [tagTypes.requester]
         }),
 
         createRequester: build.mutation({
@@ -27,7 +35,8 @@ const userApi = baseApi.injectEndpoints({
                 url: '/user/create-requester',
                 method: 'POST',
                 data: data
-            })
+            }),
+            invalidatesTags: [tagTypes.requester]
         }),
 
         getMe: build.query({
@@ -83,7 +92,8 @@ const userApi = baseApi.injectEndpoints({
             transformResponse: (res: TResponseRedux<IRequester[]>) => ({
                 data: res.data,
                 meta: res.meta
-            })
+            }),
+            providesTags: [tagTypes.requester]
         }),
 
         getSingleDonor: build.query({
@@ -97,4 +107,4 @@ const userApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useCreateDonorMutation, useCreateRequesterMutation, useGetAllDonorQuery, useGetSingleDonorQuery, useGetMeQuery, useGetAllReuqesterQuery, useDeleteDonorMutation } = userApi;
+export const { useCreateDonorMutation, useCreateRequesterMutation, useGetAllDonorQuery, useGetSingleDonorQuery, useGetMeQuery, useGetAllReuqesterQuery, useDeleteDonorMutation, useDeleteRequesterMutation } = userApi;

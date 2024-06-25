@@ -55,7 +55,7 @@ const donorPage = () => {
             headerName: 'Actions',
             flex: 0.5,
             type: 'actions',
-            renderCell: (params) => <Button variant='text' onClick={() => handleDelete(params.id)}><DeleteIcon sx={{ color: 'red' }} /></Button>
+            renderCell: (params) => <Button variant='text' onClick={() => handleDelete(params.row.userId)}><DeleteIcon sx={{ color: 'red' }} /></Button>
         }
     ];
 
