@@ -1,5 +1,6 @@
 "use client"
 import { useGetDonationQuery } from '@/Redux/api/donation/donationApi';
+import { Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 const RequestPage = () => {
@@ -17,19 +18,36 @@ const RequestPage = () => {
         {
             field: 'requestStatus',
             headerName: 'Request Status',
-            flex: 1
-
+            flex: 1,
+            renderCell: (params) => {
+                const { id, value } = params;
+                let color: string = '';
+                if (value === 'REJECTED') {
+                    color = 'red'
+                }
+                else if (value === 'PENDING') {
+                    color = 'blue'
+                }
+                else if (value === 'APPROVED') {
+                    color = 'green'
+                }
+                return <Typography sx={{ marginTop: '10px', color: `${color}` }} variant="button" display="block" gutterBottom>
+                    {value}
+                </Typography>
+            }
         }
     ];
 
     const rows = data?.data || [];
 
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ width: '100%' }}>
             <DataGrid
                 rows={rows}
                 columns={columns}
                 getRowId={(row) => row.id}
+                hideFooterPagination
+                hideFooter
             />
         </div>
     );
