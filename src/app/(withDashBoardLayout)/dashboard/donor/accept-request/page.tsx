@@ -31,7 +31,7 @@ const RequestPage = () => {
                 else if (value === 'APPROVED') {
                     color = 'green'
                 }
-                return <Typography sx={{ marginTop: '10px', color: `${color}` }} variant="button" display="block" gutterBottom>
+                return <Typography sx={{ marginTop: '10px', color: `${color}` }} display="block" gutterBottom>
                     {value}
                 </Typography>
             }

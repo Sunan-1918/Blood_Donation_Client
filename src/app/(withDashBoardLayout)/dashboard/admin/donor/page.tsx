@@ -43,7 +43,7 @@ const donorPage = () => {
                 else if (value === 'BLOCKED') {
                     color = 'red'
                 }
-                return <Typography sx={{ marginTop: '10px', color: `${color}` }} variant="button" display="block" gutterBottom>
+                return <Typography sx={{ marginTop: '10px', color: `${color}` }} display="block" gutterBottom>
                     {value}
                 </Typography>
             }

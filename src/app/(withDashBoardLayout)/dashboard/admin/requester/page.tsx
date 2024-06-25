@@ -1,7 +1,7 @@
 import { useDeleteRequesterMutation, useGetAllReuqesterQuery } from '@/Redux/api/user/userApi';
 import { Button, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import React from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { toast } from 'sonner';
 
 const requesterPage = () => {
