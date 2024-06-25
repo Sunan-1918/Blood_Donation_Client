@@ -1,5 +1,6 @@
 import { IDonor, IRequester, TResponseRedux, Tfilter } from "@/type";
 import { baseApi } from "../baseApi";
+import { tagTypes, tagTypesList } from "@/Redux/tag-type";
 
 const userApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
@@ -9,7 +10,16 @@ const userApi = baseApi.injectEndpoints({
                 url: '/user/create-donor',
                 method: 'POST',
                 data: data
-            })
+            }),
+            invalidatesTags: [tagTypes.donor]
+        }),
+
+        deleteDonor: build.mutation({
+            query: (id) => ({
+                url: `/donor/${id}`,
+                method: 'DELET'
+            }),
+            invalidatesTags: [tagTypes.donor]
         }),
 
         createRequester: build.mutation({
@@ -48,7 +58,8 @@ const userApi = baseApi.injectEndpoints({
             transformResponse: (res: TResponseRedux<IDonor[]>) => ({
                 data: res.data,
                 meta: res.meta
-            })
+            }),
+            providesTags: [tagTypes.donor]
         }),
 
         getAllReuqester: build.query({
@@ -79,10 +90,11 @@ const userApi = baseApi.injectEndpoints({
             query: (id) => ({
                 url: `/donor/donor-list/${id}`,
                 method: "GET",
-            })
+            }),
+            providesTags: [tagTypes.donor]
         }),
 
     })
 })
 
-export const { useCreateDonorMutation, useCreateRequesterMutation, useGetAllDonorQuery, useGetSingleDonorQuery, useGetMeQuery, useGetAllReuqesterQuery } = userApi;
+export const { useCreateDonorMutation, useCreateRequesterMutation, useGetAllDonorQuery, useGetSingleDonorQuery, useGetMeQuery, useGetAllReuqesterQuery, useDeleteDonorMutation } = userApi;

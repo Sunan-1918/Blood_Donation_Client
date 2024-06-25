@@ -1,10 +1,27 @@
 "use client"
-import { useGetAllDonorQuery } from '@/Redux/api/user/userApi';
-import { Typography } from '@mui/material';
+import { useDeleteDonorMutation, useGetAllDonorQuery } from '@/Redux/api/user/userApi';
+import { Button, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import React from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { toast } from 'sonner';
 
 const donorPage = () => {
+    const [deleteDonor] = useDeleteDonorMutation()
+
+    const handleDelete = async (id: any) => {
+
+        const loadingId = toast.loading("Deleting...")
+        try {
+            const response = await deleteDonor(id);
+            if (response.data.success) {
+                toast.success(response.data.message, { id: loadingId })
+            }
+        } catch (error: any) {
+            toast.error("Failed to Update", { id: loadingId })
+        }
+
+    }
+
     const { data, isFetching, isLoading } = useGetAllDonorQuery(undefined);
 
     if (isFetching || isLoading) {
@@ -33,6 +50,13 @@ const donorPage = () => {
         },
         { field: 'bloodType', headerName: 'Blood Type', flex: 1 },
         { field: 'location', headerName: 'Location', flex: 1 },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            flex: 0.5,
+            type: 'actions',
+            renderCell: (params) => <Button variant='text' onClick={() => handleDelete(params.id)}><DeleteIcon sx={{ color: 'red' }} /></Button>
+        }
     ];
 
     const rows = data?.data || [];
